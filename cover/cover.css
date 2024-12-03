@@ -1,0 +1,62 @@
+body {
+    height: 100%;
+    background-color: #201f22;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23575a61' fill-opacity='0.43' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.ui.container {
+    display: grid !important;
+    justify-content: center;
+    height: 100%;
+}
+
+.main-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    border: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5;
+    background: white;
+}
+
+.right-container-index {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    text-align:left;
+    padding-left: 10px;
+    padding-top: 0%;
+    margin: 0;
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: larger;
+}
+
+.right-container-index .title {
+    font-size: xx-large;
+    text-align: center;
+}
+
+.right-container-index .footer {
+    font-size: large;
+    text-align: center;
+}
+
+.right-container-index .cards {
+    text-align: center;
+}
+
+
+.navigation-controllers {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.label > input {
+    text-align: center;
+}

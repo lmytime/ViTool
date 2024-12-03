@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Visual Inspection Tool</title>
+    <!--jQuery-->
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <!--Semantic-->
+    <link rel="stylesheet" href="./css/semantic.min.css">
+    <script src="./js/semantic.min.js"></script>
+    <!--Vue3 + ElementUI Plus-->
+    <script src="./js/vue.global.prod.js"></script>
+    <script src="./js/element.js"></script>
+    <!--Custom Style-->
+    <link rel="stylesheet" href="./css/element.css">
+    <link rel="stylesheet" href="./css/ViTool.css">
+
+
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="main">
+                <div class="header">
+
+                    <label class="custom-file-upload">
+                        <input type="file" multiple @change="getFiles($event)" @click="newWarning">
+                        Select ImageSet
+                    </label>
+                    <el-divider direction="vertical"></el-divider>
+                    <div style="flex:1;overflow: hidden;">{{page.name}}</div>
+                    <el-dialog v-model="dialogTableVisible" custom-class="tableContainer" draggable>
+                        <el-button @click="download_table_as_csv('data')">Download</el-button>
+                        <table class="ui celled table" id="data">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>name</th>
+                                    <th v-for="col in radioItems">{{col.label}}</th>
+                                    <th v-for="col in textItems">{{col.label}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="row,index in label">
+                                    <td>{{index+1}}</td>
+                                    <td>{{row.name}}</td>
+                                    <td v-for="item in radioItems">{{row[item.label]}}</td>
+                                    <td v-for="item in textItems">{{row[item.label]}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </el-dialog>
+                </div>
+                <div class="imgContainer">
+                    <el-image class="image" :src="page.imgURL" :preview-src-list="[page.imgURL]" :initial-index="0"
+                        fit="contain" teleported=true />
+                </div>
+            </div>
+            <div class="aside">
+                <el-card class="box-radio" v-show="ctrlShow">
+                    <el-progress type="dashboard" :percentage="progress" :color="colors">
+                        <template #default="{ percentage }">
+                            <el-button @click="dialogVisible=true;num=page.index+1">{{ page.index + 1 }} /
+                                {{imageLists.length}}</el-button>
+                            <br>
+                            <el-button size="small" @click="dialogTableVisible=true"
+                                style="margin-top: 8px;">Table</el-button>
+
+                        </template>
+                    </el-progress>
+                    <el-dialog v-model="dialogVisible" title="Go To Image ID =" width="30%">
+                        <el-input-number v-model="num" :min="1" :max="imageLists.length"></el-input-number>
+                        <template #footer>
+                            <div class="dialog-footer">
+                                <el-button @click="dialogVisible = false">Cancel</el-button>
+                                <el-button type="primary" @click="dialogVisible = false;page.index=num-1;update()">Go
+                                </el-button>
+                            </div>
+                        </template>
+                    </el-dialog>
+                    <el-button-group size="large">
+                        <el-button size="large" @click="prev">←</el-button>
+                        <el-button size="large" @click="next">→</el-button>
+                    </el-button-group>
+                </el-card>
+                <div v-for="item in radioItems" :key="item.label">
+                    <el-card class="box-radio" :name="item.label">
+                        <div class="box-radio-title">{{item.title}}</div>
+                        <el-radio-group v-model="label[page.index][item.label]" size="large">
+                            <el-radio-button class="yes" label="Yes" @click="log"> </el-radio-button>
+                            <el-radio-button class="no" label="No" @click="log"> </el-radio-button>
+                        </el-radio-group>
+                    </el-card>
+                </div>
+
+                <div v-for="item in textItems" :key="item.label">
+                    <el-card class="box-radio" :name="item.label">
+                        <div class="box-radio-title">{{item.title}}</div>
+                        <textarea v-model="label[page.index][item.label]" cols="12" rows="3"></textarea>
+                    </el-card>
+                </div>
+
+                <el-card class="box-radio">
+                    <el-button @click="dialog = true" size="large">+</el-button>
+                    <el-drawer ref="drawerRef" v-model="dialog" title="Add new label item" direction="ltr">
+                        <div>
+                            <el-radio-group v-model="newType" size="large">
+                                <el-radio-button label="radio"> </el-radio-button>
+                                <el-radio-button label="text"> </el-radio-button>
+                            </el-radio-group>
+                            <el-divider></el-divider>
+                            <el-card>
+                                <template #header>
+                                    <div class="card-header">
+                                        <span>New {{newType}}</span>
+                                        <el-button class="button" @click="addItem">Add Item</el-button>
+                                    </div>
+                                </template>
+                                <el-input v-model="newTitle" size="large"
+                                    placeholder="Title: the text shown in the right panel of this page"></el-input>
+                                <el-input v-model="newLabel" size="large"
+                                    placeholder="Label Name: the column name of saved file"></el-input>
+                            </el-card>
+                        </div>
+                    </el-drawer>
+                </el-card>
+
+                <el-card class="box-radio">
+                    <div><el-popover placement="bottom" title="Preferences" trigger="click" width="200">
+                            <template #reference>
+                                <el-button class="m-2" width="100%">Preferences</el-button>
+                            </template>
+                            <div> <el-checkbox v-model="dialogActivateArrowkeys"
+                                    label="dialogActivateArrowkeys">Activate
+                                    Arrow
+                                    Hotkeys</el-checkbox>
+                            </div>
+                            <div> <el-checkbox v-model="dialogActivateYNkeys" label="dialogActivateYNkeys">Activate y/n
+                                    Hotkeys</el-checkbox>
+                            </div>
+                        </el-popover></div>
+                    </br>
+                    <a target="_blank" href="https://cloud.tsinghua.edu.cn/f/5147caa728f34c29b8c9/">Demo Video</a>
+                    <br>
+                    2024-06©<a href="https://lmytime.com" target="_blank">Mingyu</a>
+                </el-card>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./js/ViTool.js"></script>
+</body>
+
+</html>

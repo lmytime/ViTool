@@ -1,0 +1,272 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* html, body{
+    height: 100%;
+} */
+
+
+#app,
+body,
+html {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.container {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.main {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    padding: 0 8px;
+    height: 50px;
+    width: 100%;
+    line-height: 2;
+    text-align: center;
+    /* background: rgb(196, 229, 235); */
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* color: white; */
+}
+
+.aside {
+    width: 200px;
+    /* background-color: rgb(196, 229, 235); */
+    /* border-left: 3px gray dashed; */
+    height: 100%;
+}
+
+.imgContainer {
+    height: 100%;
+    /* overflow-x: scroll;
+    overflow-y: hidden; */
+
+}
+
+.image{
+    align-items: stretch;
+    height: 100%;
+    width: auto;
+    padding: 5px 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+.el-upload-list__item-thumbnail{
+    width: 100%;
+    height: auto;
+    padding: 5px 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+.yes,
+.no {
+    font-size: xx-large;
+}
+
+.yes .el-radio-button__original-radio:checked+.el-radio-button__inner {
+    color: black;
+    background-color: greenyellow;
+    border-color: green;
+}
+
+.no .el-radio-button__original-radio:checked+.el-radio-button__inner {
+    color: black;
+    background-color: tomato;
+    border-color: darkred;
+}
+
+.el-radio-button--large .el-radio-button__inner {
+    font-size: large;
+}
+
+.box-radio {
+    text-align: center;
+}
+
+.box-radio-title {
+    font-size: large;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    font-size: xx-large;
+}
+
+
+.uploadContainer,
+.tableContainer {
+    width: 80%;
+}
+
+table {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* .custom-file-upload {
+    font-size: small;
+    background-color: rgb(197, 146, 247);
+    border-radius: 4px;
+    border: 1px solid rgb(197, 146, 247);
+    color: white;
+    cursor: pointer;
+} */
+
+/* a button with border and gradiant background color*/
+.custom-file-upload {
+    font-size: small;
+    background: linear-gradient(90deg, rgba(197, 146, 247, 0.5) 0%, rgba(0, 212, 255, 0.5) 100%);
+    border-radius: 10px;
+    border: 2px solid black;
+    color: black;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
